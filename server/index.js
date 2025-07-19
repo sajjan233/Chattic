@@ -8,6 +8,5 @@ app.use(express.static(path.join(dir, './client')));
 
 
 app.listen(5000,() => {
-    console.log("server run");
-    
+    console.log("server run");  
 })
