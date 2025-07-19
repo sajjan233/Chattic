@@ -4,7 +4,7 @@ import path from 'path';
 let dir = path.dirname('')
 
 app.use('public', express.static(dir + '/public'));
-app.use(express.static(path.join(dir, './client')));
+app.use(express.static(path.join(dir, './client/build')));
 
 
 app.listen(5000,() => {
