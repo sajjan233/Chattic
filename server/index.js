@@ -1,21 +1,25 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import {} from 'dotenv/config'
+import path from 'path';
+let dir = path.dirname('')
 const app = express()
 const {MONGODB} = process.env
-console.log(MONGODB);
 
-mongoose.connect('mongodb+srv://sajjankumarhsr23:sajjankumarhsr23@personal.nlb6rsv.mongodb.net/?retryWrites=true&w=majority&appName=personal').then((E) => {
+
+mongoose.connect(MONGODB,{
+    
+}).then(() => {
     console.log("connect mongodb");
 }).catch((err) => {
     console.log("mongodb_connection_err",err);
     
 })
 
-
+app.use('public', express.static(dir + '/public'));
+app.use(express.static(path.join(dir, './client/build')));
 
 
 app.listen(5000,() => {
-    console.log("server run");
-    
+    console.log("server run");  
 })
