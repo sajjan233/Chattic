@@ -1,17 +1,38 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import './styles/Hero.css';
+import RainEffect from './RainEffect';
 
-const Hero = () => (
-  <motion.section
-    className="hero"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 1 }}
-  >
-    <h2>Hello, I’m Sajjan 👋</h2>
-    <p>Frontend Developer | React Enthusiast</p>
-  </motion.section>
-);
 
-export default Hero;
+export default function Hero() {
+  return (
+    <section
+      className="hero-section"
+      style={{
+        height: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'black',
+        color: 'white',
+        zIndex: 1,
+      }}
+    >
+      <RainEffect />
+
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+          padding: '2rem',
+        }}
+      >
+        <h1>Hi, I'm Sajjan</h1>
+        <p>Web Developer | Creative Coder | 3D Enthusiast</p>
+      </div>
+    </section>
+  );
+}

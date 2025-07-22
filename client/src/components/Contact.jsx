@@ -1,16 +1,13 @@
 import React from 'react';
-import './styles/Contact.css';
+import { motion } from 'framer-motion';
 
-const Contact = () => (
-  <section id="contact" className="contact">
-    <h2>Contact Me</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea placeholder="Your Message" rows="5" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
-);
-
-export default Contact;
+export default function Contact() {
+  return (
+    <motion.section initial={{ opacity:0 }} whileInView={{ opacity:1 }} transition={{ duration:1 }}>
+      <div className="p-4 text-center">
+        <h2>Contact Me</h2>
+        <p>Email me at <a href="mailto:you@example.com">you@example.com</a></p>
+      </div>
+    </motion.section>
+  );
+}

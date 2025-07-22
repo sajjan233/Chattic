@@ -1,10 +1,10 @@
 import React from 'react';
-import './styles/Footer.css';
+import { motion } from 'framer-motion';
 
-const Footer = () => (
-  <footer className="footer">
-    <p>© 2025 Sajjan Kumar. All rights reserved.</p>
-  </footer>
-);
-
-export default Footer;
+export default function Footer() {
+  return (
+    <motion.footer initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:1 }}>
+      <div className="text-center py-3">© {new Date().getFullYear()} Sajjan. All rights reserved.</div>
+    </motion.footer>
+  );
+}

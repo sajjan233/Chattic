@@ -1,0 +1,15 @@
+@media (max-width: 767.98px) {
+  .navbar {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+
+  .navbar-brand {
+    font-size: 1rem; /* smaller brand text */
+  }
+
+  .nav-link {
+    font-size: 0.9rem; /* smaller nav links */
+    padding: 0.3rem 0.5rem;
+  }
+}
