@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import './App.css';
+import Skills from './components/Skill';
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
-  const toggleTheme = () => setDarkMode(!darkMode);
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
 
   return (
-    <div className={darkMode ? 'dark-mode' : 'light-mode'}>
-      <Navbar toggleTheme={toggleTheme} darkMode={darkMode} />
+    <>
+      <Navbar />
+      {/* <About /> */}
       <Hero />
-      <About />
       <Projects />
-      <Contact />
-      <Footer />
-    </div>
+      <Skills/>
+    </>
   );
 }
 

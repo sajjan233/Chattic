@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import RainEffect from './RainEffect';
 
-
 export default function Hero() {
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  }, []);
+
   return (
     <section
       className="hero-section"
@@ -10,8 +15,8 @@ export default function Hero() {
         height: '100vh',
         position: 'relative',
         overflow: 'hidden',
-        background: 'black',
-        color: 'white',
+        background: '#000',
+        color: '#fff',
         zIndex: 1,
       }}
     >
@@ -23,15 +28,36 @@ export default function Hero() {
           zIndex: 2,
           display: 'flex',
           flexDirection: 'column',
-          height: '100%',
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
+          height: '100%',
           padding: '2rem',
         }}
       >
-        <h1>Hi, I'm Sajjan</h1>
-        <p>Web Developer | Creative Coder | 3D Enthusiast</p>
+        <h1
+          className="fw-bold display-4"
+          data-aos="fade-down"
+          style={{ color: '#3cfa7e' }}
+        >
+          👋 Hi, I'm a Node.js Developer
+        </h1>
+
+        <p
+          className="lead mt-3"
+          data-aos="fade-up"
+          style={{ maxWidth: '600px', color: '#ddd' }}
+        >
+          I build scalable backend services using Node.js, Express, MongoDB and RESTful APIs.
+        </p>
+
+        <a
+          href="#projects"
+          className="btn btn-outline-light mt-4"
+          data-aos="zoom-in"
+        >
+          🔧 View My Work
+        </a>
       </div>
     </section>
   );

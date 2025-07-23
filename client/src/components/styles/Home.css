@@ -1,0 +1,27 @@
+.home-hero {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+              url('https://source.unsplash.com/1080x1920/?technology,code') no-repeat center center/cover;
+  color: #fff;
+  padding: 20px;
+  background-image: linear-gradient(to right, #0d6efd, #6610f2);
+}
+
+.home-hero h1 {
+  font-size: 2.2rem;
+}
+
+.home-hero p {
+  font-size: 1rem;
+  max-width: 80%;
+}
+
+@media (min-width: 768px) {
+  .home-hero h1 {
+    font-size: 3.5rem;
+  }
+  .home-hero p {
+    font-size: 1.25rem;
+  }
+}
