@@ -54,11 +54,12 @@ function Navbar() {
           <li className="nav-item">
             <a className="nav-link" href="#home" onClick={closeNavbar}>Home</a>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#about" onClick={closeNavbar}>About</a>
-          </li>
+        
           <li className="nav-item">
             <a className="nav-link" href="#projects" onClick={closeNavbar}>Projects</a>
+          </li>
+            <li className="nav-item">
+            <a className="nav-link" href="#skills" onClick={closeNavbar}>Skills</a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#contact" onClick={closeNavbar}>Contact</a>

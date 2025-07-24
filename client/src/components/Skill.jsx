@@ -12,7 +12,6 @@ export default function Skills() {
     { name: 'React', icon: <FaReact className="text-info" /> },
     { name: 'Git & GitHub', icon: <FaGitAlt className="text-danger" /> },
     { name: 'Postman', icon: <SiPostman className="text-warning" /> },
-    { name: 'VS Code', icon: <SiVisualstudiocode className="text-primary" /> },
     { name: 'Docker', icon: <FaDocker className="text-info" /> },
     { name: 'AWS', icon: <FaAws className="text-warning" /> },
   ];

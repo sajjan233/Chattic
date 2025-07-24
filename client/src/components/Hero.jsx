@@ -9,7 +9,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section
+    <section id="home"
       className="hero-section"
       style={{
         height: '100vh',

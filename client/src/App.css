@@ -9,3 +9,6 @@
 .navbar.show {
   top: 0;
 }
+html {
+  scroll-behavior: smooth;
+}
