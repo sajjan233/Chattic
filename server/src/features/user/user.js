@@ -4,10 +4,11 @@ import bcrypt from "bcrypt";
 
 // 1. Define schema
 const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    name: { type: String },
+    username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, default: "role" }
+    role: { type: mongoose.Schema.Types.ObjectId, ref:'role' }
 }, {
     timestamps: true
 });
@@ -57,7 +58,8 @@ userSchema.methods.comparePassword = async function (inputPassword) {
 userSchema.methods.toCustomJSON = function () {
     return {
         id: this._id,
-        name: this.name,
+        username: this.username,
+        password:this.password,
         email: this.email,
         role: this.role
     };
