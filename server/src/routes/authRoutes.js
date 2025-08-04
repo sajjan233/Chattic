@@ -24,6 +24,7 @@ router.post('/login', async (req, res) => {
   try {
     
     const user = await User.findOne({ email }).populate('role');
+    console.log("user",user);
     
     if (!user || !user?.role?.slug || !(await user.comparePassword(password))) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -32,7 +33,7 @@ router.post('/login', async (req, res) => {
     const payload = { id: user._id, email: user.email };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 
-    return res.json({ message: 'Login successful', token });
+    return res.json({ message: 'Login successful', token, payload });
   } catch (err) {
     return res.status(500).json({ error: 'Login failed' });
   }
