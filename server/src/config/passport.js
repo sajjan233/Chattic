@@ -6,7 +6,7 @@ dotenv.config();
 
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
-
+console.log("JWT_SECRET:", process.env.JWT_SECRET)
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET,
