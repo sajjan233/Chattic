@@ -18,6 +18,8 @@ passport.use(new JwtStrategy(options, async (jwt_payload, done) => {
     if (user) return done(null, user);
     return done(null, false);
   } catch (err) {
+    console.log("errr",err);
+    
     return done(err, false);
   }
 }));
