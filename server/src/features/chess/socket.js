@@ -909,6 +909,8 @@ Chess.chessPlayerConnect = async (reqData, socket, io) => {
     let response = { status: 0 };
 
     try {
+        console.log("reqdaata", reqData);
+
         const user = await User.findById(reqData.id);
         if (!user) {
             response.message = 'User not found';
@@ -921,60 +923,71 @@ Chess.chessPlayerConnect = async (reqData, socket, io) => {
 
         // ✅ Step 1: Try to find a room with only 1 player and "waiting" status
         let room = await Room.findOne({
-            gameStatus: 'waiting',
-            users: { $ne: user.id.toString() }, // already not joined
             $expr: { $eq: [{ $size: "$users" }, 1] }
         });
+console.log("room",room);
 
-        if (room) {
-            room.users.push(user.id.toString());
 
-            // Assign seating
-            if (!room.seatings['1']) {
-                room.seatings['1'] = user.id.toString();
-            } else if (!room.seatings['2']) {
-                room.seatings['2'] = user.id.toString();
+        if (room != null) {
+            if(room.users.indexOf(user.id.toString()) == -1){
+
+                room.users.push(user.id.toString());
+                
+                // Assign seating
+                if (!room.seatings['1']) {
+                    room.seatings['1'] = user.id.toString();
+                } else if (!room.seatings['2']) {
+                    room.seatings['2'] = user.id.toString();
+                }
+                
+                room.markModified('seatings');
+                room.gameStatus = 'in-progress';
+                await room.save();
+                
+                socket.join(room._id.toString());
+                
+                // Notify both players (optional)
+                io.to(room._id.toString()).emit('gameStarted', {
+                    message: 'Game started',
+                    roomId: room._id,
+                    players: room.users
+                });
+                
+                response.roomid = room._id.toString();
+                response.status = 1;
+                return response;
             }
+        }else if(room == null) {
 
-            room.markModified('seatings');
-            room.gameStatus = 'in-progress';
-            await room.save();
-
-            socket.join(room._id.toString());
-
-            // Notify both players (optional)
-            io.to(room._id.toString()).emit('gameStarted', {
-                message: 'Game started',
-                roomId: room._id,
-                players: room.users
+            
+            // ✅ Step 2: No room found => create a new one
+            room = await Room.create({
+                seatings: { 1: user.id.toString(), 2: "" },
+                users: [user.id.toString()],
+                maxPlayer: 2,
+                roundCount: 0,
+                gameStatus: 'waiting'
             });
-
-            response.roomid = room._id.toString();
-            response.status = 1;
-            return response;
         }
 
-        // ✅ Step 2: No room found => create a new one
-        room = await Room.create({
-            seatings: { 1: user.id.toString(), 2: "" },
-            users: [user.id.toString()],
-            maxPlayer: 2,
-            roundCount: 0,
-            gameStatus: 'waiting'
-        });
+        if(room._id){
 
-        socket.join(room._id.toString());
-
-        socket.emit('waitingForOpponent', {
-            message: 'Waiting for opponent...',
-            roomId: room._id
-        });
-
-        response.roomid = room._id.toString();
-        response.status = 1;
+            
+            socket.join(room._id.toString());
+            
+            socket.emit('waitingForOpponent', {
+                message: 'Waiting for opponent...',
+                roomId: room._id
+            });
+            
+            response.roomid = room._id.toString();
+            response.status = 1;
+        }
         return response;
 
     } catch (err) {
+        console.log("Err",err);
+        
         console.error("❌ Error in chessPlayerConnect:", err.message);
         response.message = "Internal server error";
         return response;
