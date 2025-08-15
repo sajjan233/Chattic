@@ -34,60 +34,69 @@ const EMPTY = ' ';
 
 // let board = getBoard()
 
-
+let board = [
+    ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+    ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+    ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+];
 Chess.getVisualBoard = () => {
-    let board = [
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
-    ];
-    const whiteMap = {
-        'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙'
-    };
-    const blackMap = {
-        'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
-    };
+    // let board = [
+    //     ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+    //     ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+    //     [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    //     [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    //     [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    //     [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    //     ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+    //     ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+    // ];
+    // const whiteMap = {
+    //     'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙'
+    // };
+    // const blackMap = {
+    //     'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
+    // };
 
 
-    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    const visualBoard = [];
+    // const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    // const visualBoard = [];
 
 
-    for (let row = 0; row < 8; row++) {
-        const rank = 8 - row;
-        const rowArray = [];
-        for (let col = 0; col < 8; col++) {
-            let file = files[col];
-            let cell = board[row][col];
-            let piece = whiteMap[cell] || blackMap[cell] || ' ';
+    // for (let row = 0; row < 8; row++) {
+    //     const rank = 8 - row;
+    //     const rowArray = [];
+    //     for (let col = 0; col < 8; col++) {
+    //         let file = files[col];
+    //         let cell = board[row][col];
+    //         let piece = whiteMap[cell] || blackMap[cell] || ' ';
 
 
-            let position
-            if (whiteMap[cell]) {
-                position = file.toUpperCase() + rank
-            } else if (blackMap[cell]) {
-                position = file.toLowerCase() + rank
-            } else {
-                position = file + rank
-            }
+    //         let position
+    //         if (whiteMap[cell]) {
+    //             position = file.toUpperCase() + rank
+    //         } else if (blackMap[cell]) {
+    //             position = file.toLowerCase() + rank
+    //         } else {
+    //             position = file + rank
+    //         }
 
 
 
 
-            rowArray.push({ [position]: piece });
-        }
+    //         rowArray.push({ [position]: piece });
+    //     }
 
 
-        visualBoard.push(rowArray);
-    }
+    //     visualBoard.push(rowArray);
+    // }
 
 
-    return visualBoard;
+    return board;
 }
 
 
@@ -95,7 +104,7 @@ Chess.getVisualBoard = () => {
 
 
 
-const getPositions = (getData, socket) => {
+Chess.getPositions = (getData, socket) => {
     let allow = []
     let pos = getData.from.toLowerCase(), type = 'from', color = getData.color;
     let boardBackposition = [
@@ -846,62 +855,115 @@ const rooksallowedMovess = (position_i, position_j, color) => {
 let nextPlay = 'white'; // Global turn tracker (ideally per room)
 
 // Main function
-Chess.chessGamePlay = async (requestData, socket, io) => {
-    try {
-        const { roomId, userId, from, to } = requestData;
+// Chess.chessGamePlay = async (requestData, socket, io) => {
+//     try {
+//         const { roomId, userId, from, to } = requestData;
 
-        const room = await Room.findById(roomId);
-        if (!room) {
-            socket.emit('error', 'Room not found');
-            return;
-        }
+//         const room = await Room.findById(roomId);
+//         if (!room) {
+//             socket.emit('error', 'Room not found');
+//             return;
+//         }
 
-        const userIdStr = userId.toString();
-        let playerColor = null;
+//         const userIdStr = userId.toString();
+//         let playerColor = null;
 
-        if (room.seatings['1']?.toString() === userIdStr) playerColor = 'white';
-        else if (room.seatings['2']?.toString() === userIdStr) playerColor = 'black';
-        else {
-            socket.emit('error', 'Player not in room');
-            return;
-        }
+//         if (room.seatings['1']?.toString() === userIdStr) playerColor = 'white';
+//         else if (room.seatings['2']?.toString() === userIdStr) playerColor = 'black';
+//         else {
+//             socket.emit('error', 'Player not in room');
+//             return;
+//         }
 
-        if (playerColor !== nextPlay) {
-            socket.emit('error', `It's not ${playerColor}'s turn.`);
-            return;
-        }
+//         if (playerColor !== nextPlay) {
+//             socket.emit('error', `It's not ${playerColor}'s turn.`);
+//             return;
+//         }
 
-        // Validate move format
-        if (!from || !to || from.length < 2 || to.length < 2) {
-            socket.emit('error', 'Invalid move input.');
-            return;
-        }
+//         // Validate move format
+//         if (!from || !to || from.length < 2 || to.length < 2) {
+//             socket.emit('error', 'Invalid move input.');
+//             return;
+//         }
 
-        // ✅ Perform the move
-        const success = move(from.toLowerCase(), to.toLowerCase(), playerColor);
+//         // ✅ Perform the move
+//         const success = move(from.toLowerCase(), to.toLowerCase(), playerColor);
 
-        if (!success) {
-            socket.emit('error', 'Illegal move.');
-            return;
-        }
+//         if (!success) {
+//             socket.emit('error', 'Illegal move.');
+//             return;
+//         }
 
-        // 🧠 Update board and switch turn
-        const updatedBoard = await getVisualBoard();
-        nextPlay = (playerColor === 'white') ? 'black' : 'white';
+//         // 🧠 Update board and switch turn
+//         const updatedBoard = await getVisualBoard();
+//         nextPlay = (playerColor === 'white') ? 'black' : 'white';
 
-        // 🟢 Broadcast to both players
-        io.to(roomId.toString()).emit('board', {
-            board: updatedBoard,
-            nextPlay: nextPlay,
-            lastMove: { from, to },
-            movedBy: playerColor,
-        });
+//         // 🟢 Broadcast to both players
+//         io.to(roomId.toString()).emit('opponent_move', {
+//             board: updatedBoard,
+//             nextPlay: nextPlay,
+//             lastMove: { from, to },
+//             movedBy: playerColor,
+//         });
 
-    } catch (err) {
-        console.error("❌ Error in chessGamePlay:", err.message);
-        socket.emit('error', 'Server error');
+//     } catch (err) {
+//         console.error("❌ Error in chessGamePlay:", err.message);
+//         socket.emit('error', 'Server error');
+//     }
+// };
+
+Chess.chessGamePlay = async (requestData, socket, io, callback) => {
+    let response = {
+        message: '',
+        status: 0
     }
-};
+    try {
+        console.log("requestDatarequestDatarequestDatarequestData", requestData);
+        let roomid = requestData?.roomid
+        console.log("roomidroomid",roomid);
+        
+        let playerColor = null;
+        response.roomid = roomid
+        const room = await Room.findOne({ _id:new ObjectId(roomid) }).populate('currentgamehistory');
+        console.log('room.....', room);
+
+        if (!room) {
+            return callback({ status: 0, message: 'Room not found' });
+        }
+        const userIdStr = requestData.userid;
+        if (room.users[0]?.toString() === userIdStr) playerColor = 'white';
+        else if (room.users[1]?.toString() === userIdStr) playerColor = 'black';
+        else { return callback({ status: 0, message: 'Player not in room' }); }
+        let from = requestData.from, to = requestData.to; console.log("playerColorplayerColorplayerColor", playerColor);
+        if (playerColor !== 'white' && playerColor !== 'black') {
+            socket.emit('error', 'Invalid player color.'); return;
+        }
+        console.log("11111111111");
+        console.log("playerColor", playerColor, nextPlay);
+        // Check if it's the correct player's turn 
+        if (playerColor !== nextPlay) {
+            socket.emit('error', `It's not ${playerColor}'s turn.`); return;
+        }
+        // Validate move format 
+        if (!from || !to || from.length !== 2 || to.length !== 2) {
+            socket.emit('error', 'Invalid move input.'); return;
+        }
+        // chess pieces change position / move / play 
+        const success = move(from.toLowerCase(), to.toLowerCase(), playerColor);
+        if (success) {
+            let newBoard = await Chess.getVisualBoard(roomid); // get board / updated board
+            nextPlay = (playerColor === 'white') ? 'black' : 'white'; response.nextPlay = nextPlay
+            response.status = 1
+            // socket.emit('board', { board: newBoard, playerColor: nextPlay }); 
+            io.to(roomid).emit('board', { board: newBoard, playerColor: nextPlay });
+        } else {
+            socket.emit('error', 'Illegal move.');
+        }
+        return callback(response)
+    } catch (err) {
+        console.log("err", err);
+    }
+}
 
 
 
@@ -912,6 +974,8 @@ Chess.chessPlayerConnect = async (reqData, socket, io) => {
         console.log("reqdaata", reqData);
 
         const user = await User.findById(reqData.id);
+        console.log("useruseruseruseruser", user);
+
         if (!user) {
             response.message = 'User not found';
             return response;
@@ -922,44 +986,54 @@ Chess.chessPlayerConnect = async (reqData, socket, io) => {
         await user.save();
 
         // ✅ Step 1: Try to find a room with only 1 player and "waiting" status
-        let room = await Room.findOne({
-            $expr: { $eq: [{ $size: "$users" }, 1] }
-        });
-console.log("room",room);
 
+        let room = null
 
-        if (room != null) {
-            if(room.users.indexOf(user.id.toString()) == -1){
+        console.log("reqData?.roomid != null && reqData?.roomid != 'undefined' && reqData?.roomid != undefined", reqData?.roomid, reqData?.roomid != null, reqData?.roomid != 'undefined', reqData?.roomid != undefined);
 
-                room.users.push(user.id.toString());
-                
-                // Assign seating
-                if (!room.seatings['1']) {
-                    room.seatings['1'] = user.id.toString();
-                } else if (!room.seatings['2']) {
-                    room.seatings['2'] = user.id.toString();
+        if (reqData?.roomid != null && reqData?.roomid != 'undefined' && reqData?.roomid != undefined) {
+            room = await Room.findOne({ _id: reqData?.roomid });
+
+            console.log("room", room);
+
+        }
+        console.log("roomroomroom11111", room);
+
+        if (room == null) {
+
+            let rooms = await Room.find({
+                $expr: { $lte: [{ $size: "$users" }, 2] }
+            });
+
+            for (let singleRoom of rooms) {
+                if (singleRoom.users.length < 2 && singleRoom.users.indexOf(user.id.toString()) == -1) {
+
+                    singleRoom.users.push(user.id)
+                    if (!singleRoom.seatings['1']) {
+                        singleRoom.seatings['1'] = user.id.toString();
+                    } else if (!singleRoom.seatings['2']) {
+                        singleRoom.seatings['2'] = user.id.toString();
+                    }
+                    singleRoom.markModified('seatings');
+                    singleRoom.gameStatus = 'in-progress';
+                    await singleRoom.save();
+
+                    room = singleRoom
+                    break
                 }
-                
-                room.markModified('seatings');
-                room.gameStatus = 'in-progress';
-                await room.save();
-                
-                socket.join(room._id.toString());
-                
-                // Notify both players (optional)
-                io.to(room._id.toString()).emit('gameStarted', {
-                    message: 'Game started',
-                    roomId: room._id,
-                    players: room.users
-                });
-                
-                response.roomid = room._id.toString();
-                response.status = 1;
-                return response;
             }
-        }else if(room == null) {
+        } else if (room?.users.length == 1) {
+            room.seatings['2'] = user.id.toString();
+            // room.singleRoom.markModified('seatings');
 
-            
+            room.users.push(user.id)
+            room.gameStatus = 'in-progress';
+        }
+
+
+        if (room == null) {
+
+
             // ✅ Step 2: No room found => create a new one
             room = await Room.create({
                 seatings: { 1: user.id.toString(), 2: "" },
@@ -968,26 +1042,65 @@ console.log("room",room);
                 roundCount: 0,
                 gameStatus: 'waiting'
             });
-        }
 
-        if(room._id){
 
-            
+
             socket.join(room._id.toString());
-            
+
             socket.emit('waitingForOpponent', {
                 message: 'Waiting for opponent...',
                 roomId: room._id
             });
-            
+
             response.roomid = room._id.toString();
             response.status = 1;
         }
+        else if (room._id) {
+            socket.join(room._id.toString());
+
+            // Notify both players (optional)
+            io.to(room._id.toString()).emit('gameStarted', {
+                message: 'Game started',
+                roomId: room._id,
+                players: room.users
+            });
+
+            response.roomid = room._id.toString();
+            response.status = 1;
+
+        }
+
+
+
+
+
+
+
+
+        if (room.users.length === 2 && !room?.currentgamehistory) {
+            let gameHistory = await GameHistory.create({
+                total_betting: 0,
+                total_winning: 0,
+                jackpot: 0,
+            });
+            if (gameHistory) {
+                room.currentgamehistory = gameHistory.id;
+                 await room.save()
+            }
+            response.waiting = false;
+            response.message = 'Both players connected. Game starting...';
+        } else if (room.users.length === 1) {
+            response.waiting = true;
+            response.message = 'Waiting for opponent to join...';
+        }
+
+
+        io.in(room._id.toString()).emit('roominfo', response);
         return response;
 
     } catch (err) {
-        console.log("Err",err);
-        
+        console.log("Err", err);
+
         console.error("❌ Error in chessPlayerConnect:", err.message);
         response.message = "Internal server error";
         return response;
